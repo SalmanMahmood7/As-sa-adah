@@ -149,14 +149,12 @@ export default function AdmissionTerms() {
                   ))}
               </div>
             ))}
-            <div className="terms-final-notice">
-              <h3>{disciplinaryNotice.title}</h3>
-              <ul>
-                {disciplinaryNotice.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
+            <h3 className="disciplinary-title">{disciplinaryNotice.title}</h3>
+            <ul className="disciplinary-list">
+              {disciplinaryNotice.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
             <div className="terms-consent">
               <span className="consent-note">I confirm that all information provided above is accurate.</span>
               <label className="consent-checkbox">
@@ -302,24 +300,16 @@ export default function AdmissionTerms() {
             box-shadow: 0 10px 25px rgba(236, 201, 75, 0.35);
           }
 
-          .terms-final-notice {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            border-radius: 18px;
-            background: #f1f5f9;
-            border: 1px solid rgba(26, 71, 42, 0.1);
-          }
-
-          .terms-final-notice h3 {
-            margin: 0 0 0.8rem;
-            color: #1a472a;
+          .disciplinary-title {
+            margin: 2rem 0 0.4rem;
+            color: #facc15;
             font-size: 1.2rem;
           }
 
-          .terms-final-notice ul {
-            margin: 0;
+          .disciplinary-list {
+            margin: 0 0 1.5rem;
             padding-left: 1.1rem;
-            color: #2d3748;
+            color: #facc15;
             line-height: 1.4;
           }
 

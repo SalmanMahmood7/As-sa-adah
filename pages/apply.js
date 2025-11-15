@@ -76,6 +76,16 @@ const PDF_FIRST_PAGE_START_Y = 195;
 const PDF_OTHER_PAGE_START_Y = 170;
 const PDF_TOTAL_PAGES = 7;
 const STORAGE_UPLOAD_ENABLED = process.env.NEXT_PUBLIC_ENABLE_STORAGE_UPLOAD === "true";
+const PDF_STORAGE_UPLOAD_ENABLED = process.env.NEXT_PUBLIC_ENABLE_PDF_STORAGE_UPLOAD === "true";
+const EMAILJS_ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_p2sqk2t";
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_gf39i3k";
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "enB_Tkrm3E2IrhCIV";
+const ADMISSIONS_CONTACT_EMAIL = process.env.NEXT_PUBLIC_ADMISSIONS_CONTACT_EMAIL || "assaadahcontact525@gmail.com";
+const ADMISSIONS_CONTACT_PHONE = process.env.NEXT_PUBLIC_ADMISSIONS_CONTACT_PHONE || "+92 312 2221280";
+const INSTITUTE_ADDRESS =
+  process.env.NEXT_PUBLIC_INSTITUTE_ADDRESS ||
+  "As-Sa'adah Foundation Center, Q634+452, Chaman Zar Hill, Islamabad, Pakistan";
 const ADMISSION_RULES = [
   {
     heading: "Eligibility Criteria for Admission",
@@ -235,6 +245,15 @@ const initial = {
   },
 };
 
+const PERSONAL_REQUIRED_FIELDS = ["studentName", "fatherName", "dob", "phone", "email", "marital"];
+
+const hasNonEmptyValue = (value) => {
+  if (typeof value === "string") {
+    return value.trim().length > 0;
+  }
+  return Boolean(value);
+};
+
 const Stepper = ({ current }) => {
   const progress = steps.length > 1 ? Math.min(100, ((current + 1) / steps.length) * 100) : 100;
   return (
@@ -324,9 +343,6 @@ const Textarea = ({ label, rows = 4, disabled, ...props }) => {
   );
 };
 
-const FieldError = ({ message }) =>
-  message ? <div className={styles.fieldError}>{message}</div> : null;
-
 const UploadPhoto = ({ photo, onChange }) => {
   const locked = useLock();
   const handleFile = (event) => {
@@ -353,7 +369,6 @@ const UploadPhoto = ({ photo, onChange }) => {
 export default function MultiStepAdmissionForm() {
   const [data, setData] = useState(initial);
   const [step, setStep] = useState(0);
-  const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [submittedKeys, setSubmittedKeys] = useState({ emails: [], ids: [] });
   const [locked, setLocked] = useState(false);
@@ -434,29 +449,6 @@ export default function MultiStepAdmissionForm() {
       }
     }
   }, []);
-
-  useEffect(() => {
-    if (step === 0 || step === 1) {
-      const e = {};
-      if (step === 0) {
-        const p = data.personal;
-        if (!p.studentName) e.studentName = "Required";
-        if (!p.fatherName) e.fatherName = "Required";
-        if (!p.dob) e.dob = "Required";
-        if (!p.phone) e.phone = "Required";
-        if (!p.email) e.email = "Required";
-        if (!p.marital) e.marital = "Required";
-      }
-      if (step === 1) {
-        const a = data.academic;
-        if (!a.madrasaName) e.madrasaName = "Required";
-        if (!a.arabicLevel) e.arabicLevel = "Required";
-        if (!a.englishLevel) e.englishLevel = "Required";
-        if (!a.computerBasic) e.computerBasic = "Required";
-      }
-      setErrors(e);
-    }
-  }, [step, data]);
 
   useEffect(() => {
     const email = data.personal.email?.trim().toLowerCase();
@@ -886,6 +878,42 @@ export default function MultiStepAdmissionForm() {
     return { dataUrl, fileName, base64, approximateBytes };
   }, [buildAdmissionPdf]);
 
+  const sendEmailJsSubmission = useCallback(async (templateParams) => {
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      console.warn("EmailJS configuration missing. Skipping EmailJS dispatch.");
+      return false;
+    }
+    try {
+      const response = await fetch(EMAILJS_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          service_id: EMAILJS_SERVICE_ID,
+          template_id: EMAILJS_TEMPLATE_ID,
+          user_id: EMAILJS_PUBLIC_KEY,
+          template_params: templateParams,
+        }),
+      });
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => "Unknown EmailJS error");
+        console.error(
+          "EmailJS rejected the admission form submission",
+          response.status,
+          response.statusText,
+          errorText
+        );
+        return false;
+      }
+      console.log("Admission form forwarded to EmailJS successfully.");
+      return true;
+    } catch (error) {
+      console.error("Unable to forward admission form to EmailJS", error);
+      return false;
+    }
+  }, []);
+
   const reviewShort1 = {
     introduction: data.short1.q1_intro,
     favorite_books: data.short1.q2_books,
@@ -898,7 +926,14 @@ export default function MultiStepAdmissionForm() {
     why_join: data.short2.q6_whyJoin,
   };
 
+  const isPersonalStepComplete = PERSONAL_REQUIRED_FIELDS.every((field) =>
+    hasNonEmptyValue(data.personal[field])
+  );
+
   const handleNext = () => {
+    if (step === 0 && !isPersonalStepComplete) {
+      return;
+    }
     if (step < steps.length - 1) {
       setStep((prev) => prev + 1);
     }
@@ -912,20 +947,12 @@ export default function MultiStepAdmissionForm() {
     event.preventDefault();
     if (locked) return;
 
-    const submissionErrors = {};
     if (!data.scholarship.acceptTerms) {
-      submissionErrors.acceptTerms = "Please confirm the accuracy of your information before submitting.";
-    }
-
-    if (Object.keys(submissionErrors).length > 0) {
-      setErrors((prev) => ({ ...prev, ...submissionErrors }));
       if (step !== steps.length - 1) {
         setStep(steps.length - 1);
       }
       return;
     }
-
-    setErrors({});
     const normalizedEmail = data.personal.email?.trim().toLowerCase();
     const normalizedCnic = data.personal.cnic?.trim();
     if (typeof window !== "undefined") {
@@ -942,8 +969,18 @@ export default function MultiStepAdmissionForm() {
       setSubmittedKeys(next);
       window.localStorage.setItem("submittedApplications", JSON.stringify(next));
     }
-    
+    let thankYouDisplayed = false;
+    const openThankYouModal = () => {
+      if (!thankYouDisplayed) {
+        setSubmitted(true);
+        setShowThankYou(true);
+        thankYouDisplayed = true;
+      }
+    };
+    openThankYouModal();
+
     let admissionPdfPayload = null;
+    let admissionPdfStorageMetadata = null;
     try {
       admissionPdfPayload = await downloadAdmissionPdf();
       if (admissionPdfPayload) {
@@ -956,6 +993,37 @@ export default function MultiStepAdmissionForm() {
     } catch (error) {
       console.error("Unable to export the admission form PDF", error);
     }
+    if (admissionPdfPayload && PDF_STORAGE_UPLOAD_ENABLED) {
+      try {
+        const pdfDataUrl = admissionPdfPayload.dataUrl || (admissionPdfPayload.base64
+          ? `data:application/pdf;base64,${admissionPdfPayload.base64}`
+          : null);
+        if (pdfDataUrl) {
+          const pdfPath = `admission-forms/${Date.now()}-${admissionPdfPayload.fileName || "admission-form.pdf"}`;
+          const pdfRef = ref(storage, pdfPath);
+          await uploadString(pdfRef, pdfDataUrl, "data_url");
+          const downloadURL = await getDownloadURL(pdfRef);
+          admissionPdfStorageMetadata = {
+            downloadURL,
+            storagePath: pdfPath,
+          };
+          console.log("Admission PDF uploaded successfully:", downloadURL);
+        }
+      } catch (uploadError) {
+        console.error("Unable to upload the admission form PDF:", uploadError);
+      }
+    } else if (admissionPdfPayload && !PDF_STORAGE_UPLOAD_ENABLED) {
+      console.info(
+        "PDF storage upload disabled. Set NEXT_PUBLIC_ENABLE_PDF_STORAGE_UPLOAD=true to email downloadable links."
+      );
+    }
+
+    const submissionTimestamp = new Date();
+    const submissionTimestampIso = submissionTimestamp.toISOString();
+    const submissionTimestampDisplay = submissionTimestamp.toLocaleString(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
 
     // Save to Firebase Firestore
     try {
@@ -1025,7 +1093,7 @@ export default function MultiStepAdmissionForm() {
           termsAccepted: data.scholarship.acceptTerms,
         },
         // Metadata
-        submittedAt: new Date(),
+        submittedAt: submissionTimestamp,
         studentName: data.personal.studentName,
         fatherName: data.personal.fatherName,
         email: data.personal.email,
@@ -1034,14 +1102,90 @@ export default function MultiStepAdmissionForm() {
           admissionPdfPayload?.dataUrl ?? (admissionPdfPayload?.base64 ? `data:application/pdf;base64,${admissionPdfPayload.base64}` : null),
         admissionFormPdfFileName: admissionPdfPayload?.fileName || null,
         admissionFormPdfBytes: admissionPdfPayload?.approximateBytes || null,
+        admissionFormPdfDownloadUrl: admissionPdfStorageMetadata?.downloadURL || null,
+        admissionFormPdfStoragePath: admissionPdfStorageMetadata?.storagePath || null,
       });
       console.log("Document written with ID: ", docRef.id);
+      if (normalizedEmail) {
+        try {
+          const response = await fetch("/api/send-admission-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              studentName: data.personal.studentName,
+              recipientEmail: normalizedEmail,
+              pdfDownloadUrl: admissionPdfStorageMetadata?.downloadURL || null,
+              pdfFileName: admissionPdfPayload?.fileName || null,
+              pdfBase64: admissionPdfStorageMetadata?.downloadURL ? null : admissionPdfPayload?.base64 || null,
+            }),
+          });
+          if (!response.ok) {
+            const errorPayload = await response.json().catch(() => ({}));
+            console.error("Unable to send admission confirmation email", errorPayload);
+          }
+        } catch (emailError) {
+            console.error("Error sending admission confirmation email", emailError);
+        }
+      }
+
+      const emailJsTemplateParams = {
+        submission_id: docRef.id,
+        submission_timestamp: submissionTimestampDisplay,
+        submission_iso_timestamp: submissionTimestampIso,
+        submission_date: submissionTimestampDisplay,
+        firestore_path: `admissionForms/${docRef.id}`,
+        student_name: valueOrDash(data.personal.studentName),
+        father_name: valueOrDash(data.personal.fatherName),
+        date_of_birth: formatDateValue(data.personal.dob),
+        national_id: valueOrDash(data.personal.cnic),
+        permanent_address: valueOrDash(data.personal.permAddress),
+        current_address: valueOrDash(data.personal.currAddress),
+        phone_number: valueOrDash(data.personal.phone),
+        emergency_contact: valueOrDash(data.personal.emergency),
+        email_address: valueOrDash(data.personal.email),
+        marital_status: getOptionLabel(Marital, data.personal.marital),
+        photo_url: photoURL || "",
+        madrassa_name: valueOrDash(data.academic.madrasaName),
+        year_alim_completed: valueOrDash(data.academic.yearAlim),
+        alim_grade: getOptionLabel(Grades, data.academic.gradeAlim),
+        highest_degree: getOptionLabel(Degrees, data.academic.highestDegree),
+        degree_year: valueOrDash(data.academic.degreeYear),
+        degree_marks: valueOrDash(data.academic.degreeMarks),
+        arabic_proficiency: getOptionLabel(Proficiency, data.academic.arabicLevel),
+        english_proficiency: getOptionLabel(Proficiency, data.academic.englishLevel),
+        computer_basic: getOptionLabel(YesNo, data.academic.computerBasic),
+        computer_course: getOptionLabel(ComputerCourses, data.academic.computerCourse),
+        other_courses: valueOrDash(data.academic.otherCourses),
+        short_q1_intro: valueOrDash(data.short1.q1_intro),
+        short_q2_books: valueOrDash(data.short1.q2_books),
+        short_q3_career: valueOrDash(data.short1.q3_careerIntent),
+        short_q4_post_madrasa: valueOrDash(data.short2.q4_postMadrasa),
+        short_q5_challenges: valueOrDash(data.short2.q5_challenges),
+        short_q6_why_join: valueOrDash(data.short2.q6_whyJoin),
+        scholarship_q17_performance: valueOrDash(data.scholarship.q17_performance),
+        scholarship_q18_competitions: valueOrDash(data.scholarship.q18_competitions),
+        scholarship_q19_publications: valueOrDash(data.scholarship.q19_publications),
+        scholarship_q20_deserving: valueOrDash(data.scholarship.q20_whyDeserving),
+        scholarship_terms_accepted: data.scholarship.acceptTerms ? "Yes" : "No",
+        pdf_download_url: admissionPdfStorageMetadata?.downloadURL || "",
+        pdf_file_name: admissionPdfPayload?.fileName || "",
+        pdf_storage_path: admissionPdfStorageMetadata?.storagePath || "",
+        pdf_size_bytes: admissionPdfPayload?.approximateBytes || "",
+        institute_address: INSTITUTE_ADDRESS,
+        admissions_contact_email: ADMISSIONS_CONTACT_EMAIL,
+        admissions_contact_phone: ADMISSIONS_CONTACT_PHONE,
+      };
+      await sendEmailJsSubmission(emailJsTemplateParams);
     } catch (e) {
       console.error("Error adding document: ", e);
+      if (thankYouDisplayed) {
+        setSubmitted(false);
+        setShowThankYou(false);
+      }
     }
     
-    setSubmitted(true);
-    setShowThankYou(true);
     console.log("SUBMITTED_DATA", data);
   };
 
@@ -1073,7 +1217,6 @@ export default function MultiStepAdmissionForm() {
                           value={data.personal.studentName}
                           onChange={(e) => setSection("personal", { studentName: e.target.value })}
                         />
-                        <FieldError message={errors.studentName} />
                       </div>
                       <div>
                         <Input
@@ -1081,7 +1224,6 @@ export default function MultiStepAdmissionForm() {
                           value={data.personal.fatherName}
                           onChange={(e) => setSection("personal", { fatherName: e.target.value })}
                         />
-                        <FieldError message={errors.fatherName} />
                       </div>
                     </div>
                     <div className={styles.photoColumn}>
@@ -1099,7 +1241,6 @@ export default function MultiStepAdmissionForm() {
                         value={data.personal.dob}
                         onChange={(e) => setSection("personal", { dob: e.target.value })}
                       />
-                      <FieldError message={errors.dob} />
                     </div>
                     <Input
                       label="CNIC / B-Form"
@@ -1123,7 +1264,6 @@ export default function MultiStepAdmissionForm() {
                         value={data.personal.phone}
                         onChange={(e) => setSection("personal", { phone: e.target.value })}
                       />
-                      <FieldError message={errors.phone} />
                     </div>
                     <Input
                       label="Emergency Contact"
@@ -1145,7 +1285,6 @@ export default function MultiStepAdmissionForm() {
                         onChange={(e) => setSection("personal", { email: e.target.value })}
                         allowWhenLocked
                       />
-                      <FieldError message={errors.email} />
                     </div>
                     <div>
                       <Select
@@ -1154,7 +1293,6 @@ export default function MultiStepAdmissionForm() {
                         onChange={(e) => setSection("personal", { marital: e.target.value })}
                         options={Marital}
                       />
-                      <FieldError message={errors.marital} />
                     </div>
                   </div>
                 </StepCard>
@@ -1305,7 +1443,6 @@ export default function MultiStepAdmissionForm() {
                         value={data.scholarship.q17_performance}
                         onChange={(e) => setSection("scholarship", { q17_performance: e.target.value })}
                       />
-                      <FieldError message={errors.q17_performance} />
                     </div>
                     <div className={styles.questionItem}>
                       <Textarea
@@ -1314,7 +1451,6 @@ export default function MultiStepAdmissionForm() {
                         value={data.scholarship.q18_competitions}
                         onChange={(e) => setSection("scholarship", { q18_competitions: e.target.value })}
                       />
-                      <FieldError message={errors.q18_competitions} />
                     </div>
                     <div className={styles.questionItem}>
                       <Textarea
@@ -1323,7 +1459,6 @@ export default function MultiStepAdmissionForm() {
                         value={data.scholarship.q19_publications}
                         onChange={(e) => setSection("scholarship", { q19_publications: e.target.value })}
                       />
-                      <FieldError message={errors.q19_publications} />
                     </div>
                     <div className={styles.questionItem}>
                       <Textarea
@@ -1332,7 +1467,6 @@ export default function MultiStepAdmissionForm() {
                         value={data.scholarship.q20_whyDeserving}
                         onChange={(e) => setSection("scholarship", { q20_whyDeserving: e.target.value })}
                       />
-                      <FieldError message={errors.q20_whyDeserving} />
                     </div>
                   </div>
                 </StepCard>
@@ -1357,14 +1491,10 @@ export default function MultiStepAdmissionForm() {
                       onChange={(e) => {
                         const checked = e.target.checked;
                         setSection("scholarship", { acceptTerms: checked });
-                        if (checked && errors.acceptTerms) {
-                          setErrors((prev) => ({ ...prev, acceptTerms: undefined }));
-                        }
                       }}
                     />
                     <span>I confirm that all information provided above is accurate.</span>
                   </label>
-                  <FieldError message={errors.acceptTerms} />
                 </StepCard>
               )}
 
@@ -1383,7 +1513,7 @@ export default function MultiStepAdmissionForm() {
                       type="button"
                       onClick={handleNext}
                       className={styles.primaryButton}
-                      disabled={locked}
+                      disabled={locked || (step === 0 && !isPersonalStepComplete)}
                     >
                       Next
                     </button>
