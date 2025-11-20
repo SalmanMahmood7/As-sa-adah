@@ -246,10 +246,14 @@ export default function AdmissionTerms() {
             margin-bottom: 0.3rem;
           }
 
-          .terms-card-content h2 {
+          .section-heading h2 {
             margin: 0;
-            font-size: 1.6rem;
+            font-size: clamp(1.6rem, 3vw, 2rem);
             color: #1a472a;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
 
           .section-description {
@@ -262,11 +266,11 @@ export default function AdmissionTerms() {
             margin: 0;
             padding-left: 1.2rem;
             color: #4a5568;
-            line-height: 1.4;
+            line-height: 1.55;
           }
 
           .terms-card-content li {
-            margin-bottom: 0.15rem;
+            margin-bottom: 0.35rem;
           }
 
           .terms-card-content li:last-child {
@@ -372,12 +376,56 @@ export default function AdmissionTerms() {
               font-size: 2.2rem;
             }
 
+            .terms-hero p {
+              font-size: 1rem;
+            }
+
+            .terms-document {
+              padding: 50px 12px 90px;
+            }
+
             .document-sheet {
-              padding: 2rem 1.5rem;
+              padding: 2rem 1.25rem;
+              border-radius: 20px;
             }
 
             .terms-consent {
               align-items: stretch;
+            }
+
+            .section-heading h2 {
+              font-size: 1.3rem;
+            }
+
+            .terms-card-content ul {
+              padding-left: 1rem;
+            }
+
+            .terms-card-content li {
+              font-size: 0.95rem;
+              line-height: 1.6;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .document-sheet {
+              padding: 1.5rem 1rem;
+            }
+
+            .section-heading h2 {
+              font-size: 1.15rem;
+            }
+
+            .section-description {
+              font-size: 0.95rem;
+            }
+            
+            .terms-section {
+              gap: 0.4rem;
+            }
+
+            .terms-card-content li {
+              font-size: 0.92rem;
             }
           }
         `}</style>

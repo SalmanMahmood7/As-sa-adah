@@ -8,7 +8,7 @@ export default function Bootcamps() {
         <title>Digital Education Project - As-saadah Foundation</title>
         <meta name="description" content="Learn about As-saadah Foundation's Digital Education Initiative - our community project providing free technology bootcamps and digital literacy training to underserved communities." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images.png" type="image/png" />
       </Head>
       <Layout>
         <div className="bootcamps-container">

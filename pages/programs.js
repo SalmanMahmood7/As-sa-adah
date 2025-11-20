@@ -52,7 +52,7 @@ export default function Programs() {
         <title>Projects - As-saadah Foundation | Community Impact Initiatives</title>
         <meta name="description" content="Explore As-saadah Foundation's community impact projects including our Digital Education Initiative, Community Development programs, and Youth Empowerment efforts." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images.png" type="image/png" />
       </Head>
       <Layout>
         <section className="hero">
@@ -78,9 +78,9 @@ export default function Programs() {
             <div className="hero-overlay">
               <div>
                 <h1>
-                  Digital Empowerment Program
+                  Religious Empowerment Program
                   <br />
-                  for Religious Scholars
+                  for Madrasa Graduates
                 </h1>
                 <div>
                     <button className="primary-btn" onClick={() => router.push("/admission-terms")}>
@@ -113,7 +113,7 @@ export default function Programs() {
         <div className="programs-container main-content">
           <section className="vision-section">
             <div className="vision-card">
-              <h2>Vision of As-Saadah</h2>
+              <h2>Vision of As-sa'adah</h2>
               <p>
                 As-Saadah is a multidimensional intellectual and educational movement dedicated to empowering graduates of traditional seminaries (Madaris) with the knowledge, creativity, and practical skills necessary to meet the evolving challenges of the modern world. It envisions a transformative framework that unites classical Islamic scholarship with contemporary sciences and technology, cultivating scholars who serve not only as spiritual and moral guides but as visionary leaders contributing to social, intellectual, and economic progress.
               </p>
@@ -122,7 +122,7 @@ export default function Programs() {
               </p>
             </div>
             <div className="vision-card programs-mission-card">
-              <h2>Mission of As-Saadah</h2>
+              <h2>Mission of As-sa'adah</h2>
               <p>
                 As-Saadah's mission is to redefine the intellectual and socio-economic role of Madrasah graduates by integrating classical Islamic scholarship with modern sciences, technology, and leadership development.
               </p>
@@ -177,7 +177,8 @@ export default function Programs() {
           .hero {
             position: relative;
             width: 100%;
-            height: 90vh;
+            height: 100vh;
+            min-height: 620px;
             overflow: hidden;
             z-index: 1;
           }
@@ -232,7 +233,8 @@ export default function Programs() {
             font-weight: 900;
             margin-bottom: 2rem;
             font-family: 'Montserrat', sans-serif;
-            text-shadow: 3px 3px 6px rgba(255, 255, 255, 0.7);
+            color: #f7fff1;
+            text-shadow: 0 18px 35px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.45);
             line-height: 1.1;
             letter-spacing: -0.02em;
           }
@@ -418,13 +420,15 @@ export default function Programs() {
 
           .vision-card,
           .programs-mission-card {
-            max-width: 900px;
+            width: min(900px, 100%);
             margin: 0 auto;
             background: white;
-            padding: 3rem;
+            padding: clamp(2rem, 5vw, 3rem);
             border-radius: 24px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
             border: 1px solid rgba(26, 71, 42, 0.1);
+            box-sizing: border-box;
+            overflow: hidden;
           }
 
           .programs-mission-card {
@@ -502,20 +506,27 @@ export default function Programs() {
 
           .vision-card h2,
           .programs-mission-card h2 {
-            font-size: 3rem;
+            font-size: clamp(0.95rem, 3.5vw, 2.6rem);
             color: #1a472a;
-            margin-bottom: 1.5rem;
+            margin: 0 auto 1.5rem;
             font-weight: 800;
             text-align: center;
+            letter-spacing: -0.01em;
+            display: block;
+            line-height: 1.2;
+            white-space: normal;
           }
 
           .vision-card p,
           .programs-mission-card p {
-            font-size: 1.1rem;
-            line-height: 1.9;
+            font-size: clamp(1rem, 2.4vw, 1.1rem);
+            line-height: 1.85;
             color: #444;
             margin-bottom: 0;
             text-align: justify;
+            word-break: normal;
+            overflow-wrap: break-word;
+            hyphens: auto;
           }
 
           .cta-section {
@@ -584,7 +595,17 @@ export default function Programs() {
 
           @media (max-width: 768px) {
             .hero {
-              height: 75vh;
+              height: 100vh;
+              min-height: 560px;
+            }
+
+            .hero-image {
+              height: 100%;
+              min-height: inherit;
+            }
+
+            .hero-slide {
+              height: 100%;
             }
 
             .hero-overlay h1 {
@@ -616,7 +637,10 @@ export default function Programs() {
 
             .vision-card,
             .programs-mission-card {
-              padding: 2rem;
+              width: min(580px, 100%);
+              padding: clamp(1.5rem, 7vw, 2.25rem);
+              margin: 0 auto 1.25rem;
+              border-radius: 20px;
             }
 
             .batch-header-card {
@@ -632,19 +656,29 @@ export default function Programs() {
             }
 
             .programs-mission-card {
-              margin-top: 2rem;
+              margin-top: 1.5rem;
             }
 
             .vision-card h2,
             .programs-mission-card h2 {
-              font-size: 2.4rem;
+              font-size: clamp(0.95rem, 5vw, 2rem);
+              text-align: center;
+              margin: 0.4rem auto 0.85rem;
+              display: block;
+              white-space: normal;
             }
 
             .vision-card p,
             .programs-mission-card p {
-              font-size: 1rem;
+              font-size: 0.98rem;
               margin-bottom: 0;
               text-align: justify;
+              line-height: 1.6;
+            }
+
+            .vision-card p + p,
+            .programs-mission-card p + p {
+              margin-top: 0.75rem;
             }
 
             .cta-content h2 {
@@ -659,6 +693,31 @@ export default function Programs() {
             .btn-primary, .btn-secondary {
               width: 100%;
               max-width: 300px;
+            }
+          }
+
+          @media (max-width: 540px) {
+            .vision-card,
+            .programs-mission-card {
+              width: calc(100% - 24px);
+              padding: 1.4rem 1.6rem;
+              margin: 0 auto 1.25rem;
+            }
+
+            .vision-card h2,
+            .programs-mission-card h2 {
+              font-size: clamp(0.9rem, 5.5vw, 1.6rem);
+              line-height: 1.2;
+              white-space: normal;
+              text-align: center;
+              display: block;
+              margin: 0.25rem auto 0.75rem;
+            }
+
+            .vision-card p,
+            .programs-mission-card p {
+              font-size: 0.95rem;
+              line-height: 1.5;
             }
           }
         `}</style>

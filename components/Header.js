@@ -11,7 +11,7 @@ export default function Header() {
           <div className="logo-section">
             <a href="/">
               <img 
-                src="/as-sa-adah logo.png" 
+                src="/images.png" 
                 alt="As-sa'adah Foundation" 
                 className="logo"
               />
@@ -21,7 +21,7 @@ export default function Header() {
           {/* Navigation Links */}
           <nav className="nav-links">
             <a href="/" className="nav-item active">Home</a>
-            <a href="/#about" className="nav-item">About Us</a>
+            <a href="/about" className="nav-item">About Us</a>
             <div className="dropdown">
               <span className="nav-item">Programs ▾</span>
               <div className="dropdown-menu">
@@ -55,7 +55,7 @@ export default function Header() {
         {/* Mobile Menu */}
         <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
           <a href="/" className="mobile-nav-item">Home</a>
-          <a href="/#about" className="mobile-nav-item">About Us</a>
+          <a href="/about" className="mobile-nav-item">About Us</a>
           <a href="/programs#education" className="mobile-nav-item">Education Programs</a>
           <a href="/programs#healthcare" className="mobile-nav-item">Healthcare</a>
           <a href="/programs#community" className="mobile-nav-item">Community Development</a>
@@ -102,10 +102,6 @@ export default function Header() {
           transition: transform 0.3s ease;
         }
 
-        .logo:hover {
-          transform: scale(1.05);
-        }
-
         .nav-links {
           display: flex;
           align-items: center;
@@ -123,11 +119,6 @@ export default function Header() {
           transition: all 0.3s ease;
           font-size: 0.95rem;
           white-space: nowrap;
-        }
-
-        .nav-item:hover {
-          background: rgba(0, 0, 0, 0.1);
-          color: black;
         }
 
         .nav-item.active {
@@ -175,11 +166,6 @@ export default function Header() {
           transition: all 0.3s ease;
         }
 
-        .dropdown-menu a:hover {
-          background: rgba(0, 0, 0, 0.1);
-          color: black;
-        }
-
         .donate-section {
           flex-shrink: 0;
         }
@@ -196,12 +182,6 @@ export default function Header() {
           box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
         }
 
-        .donate-btn:hover {
-          background: linear-gradient(135deg, #22543d, #2f855a);
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(26, 71, 42, 0.4);
-        }
-
         .mobile-toggle {
           display: none;
           background: none;
@@ -212,10 +192,6 @@ export default function Header() {
           padding: 8px;
           border-radius: 4px;
           transition: background 0.3s ease;
-        }
-
-        .mobile-toggle:hover {
-          background: rgba(0, 0, 0, 0.1);
         }
 
         .mobile-menu {
@@ -249,10 +225,6 @@ export default function Header() {
           transition: color 0.3s ease;
         }
 
-        .mobile-nav-item:hover {
-          color: rgba(0, 0, 0, 0.7);
-        }
-
         .mobile-nav-item:last-child {
           border-bottom: none;
         }
@@ -268,10 +240,6 @@ export default function Header() {
           text-align: center;
           margin-top: 15px;
           transition: all 0.3s ease;
-        }
-
-        .mobile-donate-btn:hover {
-          background: linear-gradient(135deg, #22543d, #2f855a);
         }
 
         /* Mobile Styles */

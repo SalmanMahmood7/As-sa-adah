@@ -38,16 +38,6 @@ export default function WhatsAppButton() {
           overflow: visible;
         }
 
-        .whatsapp-float:hover {
-          transform: scale(1.1);
-          box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-        }
-
-        .whatsapp-float:hover .float-label {
-          opacity: 1;
-          transform: translateX(-10px);
-        }
-
         .float-label {
           position: absolute;
           right: 70px;
@@ -58,8 +48,8 @@ export default function WhatsAppButton() {
           font-size: 14px;
           font-weight: 500;
           white-space: nowrap;
-          opacity: 0;
-          transform: translateX(10px);
+          opacity: 1;
+          transform: translateX(0);
           transition: all 0.3s ease;
           pointer-events: none;
           box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);

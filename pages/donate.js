@@ -96,7 +96,7 @@ export default function Donate() {
         <title>Donate - As-sa'adah Foundation</title>
         <meta name="description" content="Support As-sa'adah Foundation's Islamic welfare programs through Zakat, Sadaqah, and charitable donations." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images.png" type="image/png" />
       </Head>
       <Layout>
         <div className="donate-page">

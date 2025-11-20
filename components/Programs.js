@@ -1,8 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import DonationModal from './DonationModal';
 
 export default function Programs() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+  const [isHomeView, setIsHomeView] = useState(() => router?.pathname === '/' && (!router?.asPath || router.asPath === '/'));
+
+  useEffect(() => {
+    const updateVisibility = () => {
+      if (typeof window === 'undefined') return;
+      const { pathname, hash } = window.location;
+      const isBaseHome = pathname === '/' && hash !== '#about';
+      setIsHomeView(isBaseHome);
+    };
+
+    updateVisibility();
+    window.addEventListener('hashchange', updateVisibility);
+    window.addEventListener('popstate', updateVisibility);
+
+    return () => {
+      window.removeEventListener('hashchange', updateVisibility);
+      window.removeEventListener('popstate', updateVisibility);
+    };
+  }, []);
+
+  if (!isHomeView) {
+    return null;
+  }
 
   const openDonationModal = () => {
     setIsModalOpen(true);
@@ -17,21 +42,21 @@ export default function Programs() {
       id: 1,
       title: "Healthcare Support",
       description: "Providing essential medical care and health services to underserved communities through mobile clinics, free consultations, and medicine distribution.",
-      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?auto=format&fit=crop&w=1000&h=600&q=80",
+      image: "/download.jpeg",
       link: "/donate/healthcare-support"
     },
     {
       id: 2,
       title: "Education Empowerment",
       description: "Building educational foundations through scholarship programs, learning centers, and digital literacy initiatives for children and adults.",
-      image: "https://images.unsplash.com/photo-1497486751825-1233686d5d80?auto=format&fit=crop&w=1000&h=600&q=80",
+      image: "/images.jpeg",
       link: "/donate/education-empowerment"
     },
     {
       id: 3,
       title: "Food Security",
       description: "Ensuring no one goes hungry through food distribution programs, community kitchens, and sustainable farming initiatives.",
-      image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1000&h=600&q=80",
+      image: "/download (1).jpeg",
       link: "/donate/food-security"
     },
     {
@@ -45,14 +70,14 @@ export default function Programs() {
       id: 5,
       title: "Clean Water Initiative",
       description: "Providing access to clean, safe drinking water through well construction, water purification systems, and sanitation programs.",
-      image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1000&h=600&q=80",
+      image: "/clean-water-initiative.webp",
       link: "/donate/clean-water-initiative"
     },
     {
       id: 6,
       title: "Women Empowerment",
       description: "Empowering women through skills training, leadership development, and creating safe spaces for personal and professional growth.",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&h=600&q=80",
+      image: "/hijab.jpg",
       link: "/donate/women-empowerment"
     }
   ];
@@ -185,11 +210,6 @@ export default function Programs() {
           width: 100%;
         }
 
-        .donation-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 15px 40px rgba(26, 71, 42, 0.2);
-        }
-
         /* Image Section */
         .donation-image {
           position: relative;
@@ -202,10 +222,6 @@ export default function Programs() {
           height: 100%;
           object-fit: cover;
           transition: transform 0.3s ease;
-        }
-
-        .donation-card:hover .card-image {
-          transform: scale(1.05);
         }
 
 
@@ -228,10 +244,6 @@ export default function Programs() {
           color: var(--primary-color);
           text-decoration: none;
           transition: color 0.3s ease;
-        }
-
-        .donation-title a:hover {
-          color: var(--secondary-color);
         }
 
         .donation-short-description {
@@ -279,25 +291,10 @@ export default function Programs() {
           border: 2px solid var(--primary-color);
         }
 
-        .quick-button:hover {
-          background: var(--primary-color);
-          color: white;
-          transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(26, 71, 42, 0.3);
-        }
-
         .learn-more-button {
           background: var(--primary-color);
           color: white;
           border: 2px solid var(--primary-color);
-        }
-
-        .learn-more-button:hover {
-          background: var(--secondary-color);
-          border-color: var(--secondary-color);
-          transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(26, 71, 42, 0.3);
-          color: white;
         }
 
         .icon {
@@ -313,6 +310,10 @@ export default function Programs() {
         }
 
         @media (max-width: 768px) {
+          .programs-section {
+            padding: 70px 0;
+          }
+
           .programs-title {
             font-size: 2.5rem;
           }
@@ -322,8 +323,8 @@ export default function Programs() {
           }
 
           .donation-cards-wrapper {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.2rem;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
           }
 
           .donation-buttons {

@@ -8,7 +8,7 @@ export default function Impact() {
         <title>Our Impact - As-saadah Foundation | Making a Difference</title>
         <meta name="description" content="Discover the meaningful impact As-saadah Foundation has made in communities through our digital education, community development, and youth empowerment programs." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images.png" type="image/png" />
       </Head>
       <Layout>
         <div className="impact-container">

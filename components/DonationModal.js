@@ -284,12 +284,6 @@ export default function DonationModal({ isOpen, onClose }) {
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .modal-close:hover {
-          background: white;
-          color: var(--primary-color);
-          transform: scale(1.1);
-        }
-
         @keyframes modalSlideIn {
           from {
             opacity: 0;
@@ -366,11 +360,6 @@ export default function DonationModal({ isOpen, onClose }) {
           left: 50%;
           transform: translate(-50%, -50%);
           z-index: 3;
-        }
-
-        .play-button:hover {
-          transform: translate(-50%, -50%) scale(1.1);
-          animation: none;
         }
 
         @keyframes pulse {
@@ -517,11 +506,6 @@ export default function DonationModal({ isOpen, onClose }) {
           font-family: 'Montserrat', sans-serif;
         }
 
-        .custom-option-button:hover {
-          border-color: var(--primary-color);
-          background: var(--light-bg);
-        }
-
         .custom-option-button.selected {
           background: var(--primary-color);
           color: white;
@@ -592,12 +576,6 @@ export default function DonationModal({ isOpen, onClose }) {
           color: var(--text-dark);
         }
 
-        .quantity .btn:hover {
-          background: var(--primary-color);
-          color: white;
-          border-color: var(--primary-color);
-        }
-
         .quantity input {
           width: 80px;
           padding: 12px;
@@ -632,12 +610,6 @@ export default function DonationModal({ isOpen, onClose }) {
           gap: 10px;
           font-family: 'Montserrat', sans-serif;
           box-shadow: 0 8px 25px rgba(26, 71, 42, 0.3);
-        }
-
-        .single_add_to_cart_button:hover {
-          background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
-          transform: translateY(-2px);
-          box-shadow: 0 12px 35px rgba(26, 71, 42, 0.4);
         }
 
         .info-box {

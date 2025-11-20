@@ -294,11 +294,6 @@ export default function YouTubeSection() {
           filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
         }
         
-        .youtube-slide:hover .youtube-play-overlay {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(1.1);
-        }
-        
         .youtube-slide-link {
           position: relative;
           display: block;
@@ -315,12 +310,6 @@ export default function YouTubeSection() {
           transition: all 0.3s ease;
         }
         
-        .youtube-slide:hover .youtube-thumbnail {
-          transform: scale(1.05);
-          border-color: #22543d;
-          box-shadow: 0 8px 20px rgba(26, 71, 42, 0.4);
-        }
-        
         .video-title-overlay {
           position: absolute;
           bottom: 0;
@@ -335,9 +324,6 @@ export default function YouTubeSection() {
           transition: opacity 0.3s ease;
         }
         
-        .youtube-slide:hover .video-title-overlay {
-          opacity: 1;
-        }
         \n        /* Mobile responsive styles */\n        @media (max-width: 991px) {\n          .youtube-content {\n            flex-direction: column;\n            gap: 2rem;\n            text-align: center;\n          }\n          \n          .youtube-text-container {\n            max-width: 100%;\n          }\n          \n          .youtube-carousel-wrapper {\n            max-width: 100%;\n            width: 100%;\n          }\n        }\n        \n        @media (max-width: 768px) {\n          .youtube-placeholder {\n            padding: 2rem;\n          }\n          \n          .placeholder-content h3 {\n            font-size: 1.3rem;\n          }\n          \n          .placeholder-content ol {\n            max-width: 100%;\n          }\n          \n          .youtube-thumbnail {\n            height: 200px;\n          }\n        }\n        \n        @media (max-width: 480px) {\n          .youtube-placeholder {\n            padding: 1.5rem;\n          }\n          \n          .placeholder-content h3 {\n            font-size: 1.2rem;\n          }\n          \n          .youtube-thumbnail {\n            height: 180px;\n          }\n          \n          .youtube-play-icon {\n            width: 50px;\n            height: 35px;\n          }\n        }\n      `}</style>
     </section>
   );

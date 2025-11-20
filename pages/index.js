@@ -15,7 +15,7 @@ export default function Home() {
         <title>As-sa'adah Foundation - Comprehensive Islamic Welfare Organization</title>
         <meta name="description" content="As-sa'adah Foundation is a comprehensive Islamic welfare organization providing education, healthcare, poverty alleviation, spiritual development, and emergency relief based on Islamic principles." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images.png" type="image/png" />
       </Head>
       <Layout>
         <Hero />

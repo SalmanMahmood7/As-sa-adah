@@ -1821,6 +1821,73 @@ a {
   font-family: 'Montserrat', sans-serif;
 }
 
+@media (max-width: 600px) {
+  .cta-section-main {
+    padding: 40px 0;
+  }
+  .cta-section-main::before {
+    display: none;
+  }
+
+  .cta-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .cta-text {
+    text-align: center;
+  }
+
+  .cta-title {
+    font-size: 2rem;
+  }
+
+  .cta-description {
+    font-size: 1rem;
+    text-align: justify;
+  }
+
+  .cta-features {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .cta-feature {
+    justify-content: center;
+    padding: 0.6rem;
+    border: 1px solid rgba(26, 71, 42, 0.12);
+    border-radius: 12px;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: stretch;
+  }
+
+  .cta-primary-btn,
+  .cta-secondary-btn {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 40px;
+  }
+
+  .cta-stats {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+
+  .cta-stat .stat-number {
+    font-size: 0.85rem;
+  }
+
+  .cta-stat .stat-value {
+    font-size: 1.05rem;
+  }
+}
+
 /* Mobile Navigation Toggle */
 .mobile-menu-toggle {
   display: none;

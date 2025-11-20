@@ -109,7 +109,7 @@ export default function WelfarePrograms() {
         "Water Conservation Programs"
       ],
       color: "#00b3d4",
-      image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80"
+      image: "/clean-water-initiative.webp"
     },
     {
       id: 6,

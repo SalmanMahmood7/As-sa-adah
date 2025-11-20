@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 export default function About() {
   const [isVisible, setIsVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
+  const isHomePage = router?.pathname === '/';
 
   useEffect(() => {
+    if (!isHomePage) return;
+
     setIsMounted(true);
     
     const handleScroll = () => {
@@ -21,7 +26,11 @@ export default function About() {
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]);
+
+  if (!isHomePage) {
+    return null;
+  }
 
   return (
     <section id="about" className="about-section-floating">
@@ -30,7 +39,7 @@ export default function About() {
           {/* Background Logo */}
           <div className="about-background-logo">
             <Image
-              src="/as-sa-adah logo.png"
+              src="/images.png"
               alt=""
               width={800}
               height={800}
@@ -43,8 +52,8 @@ export default function About() {
               {/* Logo */}
               <div className={`about-image ${isMounted && isVisible ? 'fade-in' : ''}`}>
                 <Image
-                  src="/as-sa-adah logo.png"
-                  alt="As-sa'adah Foundation Logo"
+                  src="/images.png"
+                  alt="As, Sa'adah Foundation Logo"
                   width={300}
                   height={300}
                   className="about-img"
@@ -74,11 +83,9 @@ export default function About() {
 
             {/* Button */}
             <div className={`about-button ${isMounted && isVisible ? 'fade-in' : ''}`}>
-              <div className="about-btn-wrapper">
-                <a href="/about" className="about-discover-btn">
-                  Discover More
-                </a>
-              </div>
+              <a href="/transformation" className="about-discover-btn">
+                Discover More
+              </a>
             </div>
           </div>
         </div>
@@ -88,7 +95,7 @@ export default function About() {
         .about-section-floating {
           position: relative;
           z-index: 10;
-          margin-top: -150px;
+          margin-top: 60px;
           margin-bottom: 50px;
           padding: 0;
         }
@@ -115,30 +122,29 @@ export default function About() {
           margin: 0 auto;
         }
 
-        .about-floating-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 35px 80px rgba(30, 58, 138, 0.2);
-        }
-
         .about-background-logo {
           position: absolute;
           top: 50%;
-          right: -100px;
-          transform: translateY(-50%);
+          left: 68%;
+          transform: translate(-50%, -50%);
           z-index: 1;
-          opacity: 0.1;
+          opacity: 0.12;
           pointer-events: none;
           transition: all 0.3s ease;
+          width: min(600px, 90%);
+          max-height: calc(100% - 40px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .background-logo-img {
+          width: 100%;
+          height: auto;
+          max-height: 100%;
+          object-fit: contain;
           filter: grayscale(100%) sepia(100%) hue-rotate(60deg) saturate(2);
           transition: all 0.3s ease;
-        }
-
-        .about-floating-card:hover .about-background-logo {
-          opacity: 0.15;
-          transform: translateY(-50%) scale(1.05);
         }
 
         .about-card-content {
@@ -169,11 +175,6 @@ export default function About() {
           border-radius: 15px;
           box-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);
           transition: all 0.3s ease;
-        }
-
-        .about-img:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 15px 40px rgba(30, 58, 138, 0.3);
         }
 
         .about-heading {
@@ -216,6 +217,8 @@ export default function About() {
           font-size: 0.9rem;
           line-height: 1.6;
           margin: 0;
+          text-align: justify;
+          text-justify: inter-word;
         }
 
         .about-button {
@@ -247,17 +250,10 @@ export default function About() {
           cursor: pointer;
         }
 
-        .about-discover-btn:hover {
-          background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
-          transform: translateY(-3px);
-          box-shadow: 0 12px 30px rgba(30, 58, 138, 0.4);
-          color: white;
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
           .about-section-floating {
-            margin-top: -100px;
+            margin-top: 40px;
             margin-bottom: 40px;
           }
 
@@ -288,17 +284,22 @@ export default function About() {
 
           .about-section-description p {
             font-size: 1rem;
+            text-align: justify;
           }
 
           .about-background-logo {
-            right: -60px;
-            opacity: 0.08;
+            left: 50%;
+            right: auto;
+            width: min(420px, 100%);
+            opacity: 0.14;
+            transform: translate(-50%, -50%);
           }
+
         }
 
         @media (max-width: 480px) {
           .about-section-floating {
-            margin-top: -80px;
+            margin-top: 30px;
             margin-bottom: 30px;
           }
 
@@ -319,6 +320,7 @@ export default function About() {
 
           .about-section-description p {
             font-size: 0.95rem;
+            text-align: justify;
           }
 
           .about-discover-btn {
@@ -327,10 +329,13 @@ export default function About() {
           }
 
           .about-background-logo {
-            right: -40px;
-            opacity: 0.06;
-            transform: translateY(-50%) scale(0.9);
+            left: 50%;
+            right: auto;
+            width: min(360px, 100%);
+            opacity: 0.16;
+            transform: translate(-50%, -50%) scale(0.9);
           }
+
         }
       `}</style>
     </section>

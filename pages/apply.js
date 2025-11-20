@@ -78,9 +78,9 @@ const PDF_TOTAL_PAGES = 7;
 const STORAGE_UPLOAD_ENABLED = process.env.NEXT_PUBLIC_ENABLE_STORAGE_UPLOAD === "true";
 const PDF_STORAGE_UPLOAD_ENABLED = process.env.NEXT_PUBLIC_ENABLE_PDF_STORAGE_UPLOAD === "true";
 const EMAILJS_ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_p2sqk2t";
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_gf39i3k";
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "enB_Tkrm3E2IrhCIV";
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_8wunae4";
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_vk3rzrj";
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "Gd2ZR9Y2yjEtEXUR3";
 const ADMISSIONS_CONTACT_EMAIL = process.env.NEXT_PUBLIC_ADMISSIONS_CONTACT_EMAIL || "assaadahcontact525@gmail.com";
 const ADMISSIONS_CONTACT_PHONE = process.env.NEXT_PUBLIC_ADMISSIONS_CONTACT_PHONE || "+92 312 2221280";
 const INSTITUTE_ADDRESS =
@@ -1106,30 +1106,6 @@ export default function MultiStepAdmissionForm() {
         admissionFormPdfStoragePath: admissionPdfStorageMetadata?.storagePath || null,
       });
       console.log("Document written with ID: ", docRef.id);
-      if (normalizedEmail) {
-        try {
-          const response = await fetch("/api/send-admission-email", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              studentName: data.personal.studentName,
-              recipientEmail: normalizedEmail,
-              pdfDownloadUrl: admissionPdfStorageMetadata?.downloadURL || null,
-              pdfFileName: admissionPdfPayload?.fileName || null,
-              pdfBase64: admissionPdfStorageMetadata?.downloadURL ? null : admissionPdfPayload?.base64 || null,
-            }),
-          });
-          if (!response.ok) {
-            const errorPayload = await response.json().catch(() => ({}));
-            console.error("Unable to send admission confirmation email", errorPayload);
-          }
-        } catch (emailError) {
-            console.error("Error sending admission confirmation email", emailError);
-        }
-      }
-
       const emailJsTemplateParams = {
         submission_id: docRef.id,
         submission_timestamp: submissionTimestampDisplay,

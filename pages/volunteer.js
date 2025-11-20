@@ -47,7 +47,7 @@ export default function Volunteer() {
         <title>Volunteer - As-sa'adah Foundation</title>
         <meta name="description" content="Join As-sa'adah Foundation as a volunteer and contribute to our Islamic welfare mission through various programs." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images.png" type="image/png" />
       </Head>
       <Layout>
         <div className="volunteer-page">

@@ -241,11 +241,6 @@ export default function ImpactStories() {
           justify-content: space-between;
         }
 
-        .testimonial-inner:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 20px 40px rgba(30, 58, 138, 0.15);
-        }
-
         .testimonial-content {
           flex: 1;
           margin-bottom: 2rem;

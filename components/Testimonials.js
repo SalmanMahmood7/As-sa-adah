@@ -153,13 +153,6 @@ export default function Testimonials() {
           flex-shrink: 0;
         }
 
-        .impact-badge:hover {
-          background: #68d391;
-          color: #1a472a;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(104, 211, 145, 0.4);
-        }
-
         .impact-badge::before {
           content: '';
           position: absolute;
@@ -307,13 +300,6 @@ export default function Testimonials() {
           border: 1px solid rgba(26, 71, 42, 0.1);
         }
 
-        .hexagon-testimonial:hover .hexagon-shape {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 40px rgba(26, 71, 42, 0.15);
-          background: linear-gradient(135deg, #f0fdf4, #ffffff);
-          border: 1px solid rgba(104, 211, 145, 0.2);
-        }
-
         .hexagon-content {
           position: absolute;
           top: 0;
@@ -441,7 +427,7 @@ export default function Testimonials() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: url('/as-sa-adah logo.png') center/400px no-repeat;
+          background: url('/images.png') center/400px no-repeat;
           opacity: 0.08;
           pointer-events: none;
           z-index: 1;
@@ -498,11 +484,6 @@ export default function Testimonials() {
           position: relative;
           overflow: hidden;
           transition: all 0.3s ease;
-        }
-
-        .circular-button:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 15px 35px rgba(104, 211, 145, 0.4);
         }
 
         .button-ripple {
