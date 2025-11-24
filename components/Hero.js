@@ -81,7 +81,7 @@ export default function Hero() {
           <div className="container">
             <div className="hero-content">
             <h1 className="hero-title">
-              <div className="line-green line-one">As-sa'adah Foundation</div>
+              <div className="line-green line-one">As-sa'adah</div>
               <div className="line-green">Empowering Communities</div>
             </h1>
             <div className="hero-actions">

@@ -1,16 +1,5 @@
 import { socialLinks } from "../lib/socialLinks";
 
-const quickLinks = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Programs", href: "/programs" },
-  { label: "Courses", href: "/courses" },
-  { label: "Admissions", href: "/admission-terms" },
-  { label: "Volunteer", href: "/volunteer" },
-  { label: "Donate", href: "/donate" },
-  { label: "Contact", href: "/contact" }
-];
-
 const contactCards = [
   {
     title: "Phone",
@@ -35,14 +24,14 @@ const contactCards = [
   },
   {
     title: "Address",
-    value: "As-sa'adah Foundation Center",
+    value: "As‑sa'adah\nCenter",
     href: null,
     details: [
       "Q634+452, Chaman Zar Hill",
       "Islamabad, Pakistan"
     ],
     icon: (
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M20 10c0 4.993-5.54 10.193-7.4 11.799a1 1 0 0 1-1.2 0C9.54 20.193 4 14.993 4 10a8 8 0 0 1 16 0z" />
         <circle cx="12" cy="10" r="3" />
       </svg>
@@ -54,37 +43,23 @@ const contactCards = [
 export default function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-overlay" />
-      <div className="footer-inner">
-        <div className="footer-hero">
-          <div className="footer-hero-text">
-            <span className="footer-badge">Since 2015</span>
-            <h2>Faith, Knowledge &amp; Community Impact</h2>
-            <p>
-              As-sa&apos;adah Foundation nurtures socially conscious scholars who blend classical Islamic wisdom
-              with modern skills to uplift underserved communities.
-            </p>
-          </div>
-          <div className="footer-hero-cta">
-            <a href="/donate" className="footer-btn primary">Donate Now</a>
-            <a href="/contact" className="footer-btn secondary">Contact Us</a>
-          </div>
+      <div className="footer-container">
+        {/* Quote Section - First */}
+        <div className="quote-top">
+          <em>&quot;And whoever saves a life, it is as if he has saved all of mankind.&quot; - Quran 5:32</em>
         </div>
 
-        <div className="footer-grid">
-          <section className="footer-block footer-about">
-            <div className="footer-logo">
-              <img src="/logo.png" alt="As-sa'adah Foundation" />
-              <div>
-                <h3>As-sa&apos;adah Foundation</h3>
-                <p className="footer-description">
-                  Comprehensive Islamic welfare organization delivering education, healthcare, and socio-economic support.
-                </p>
+        {/* Main Footer Content */}
+        <div className="footer-main">
+          {/* Left: Branding */}
+          <div className="footer-brand">
+            <div className="brand-info">
+              <img src="/images.png" alt="As-sa'adah" className="footer-logo" />
+              <div className="brand-text">
+                <h3>As-sa&apos;adah</h3>
+                <span className="tagline">Since 2015</span>
+                <p>Comprehensive Islamic welfare organization delivering education, healthcare, and socio-economic support.</p>
               </div>
-            </div>
-            <div className="footer-mission">
-              <p>&quot;And whoever saves a life, it is as if he has saved all of mankind.&quot;</p>
-              <span>- Quran 5:32</span>
             </div>
             <div className="social-links">
               {socialLinks.map((item) => (
@@ -93,469 +68,338 @@ export default function Footer() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={item.name}
                   className="social-link"
                 >
-                  <item.Icon size={22} />
+                  <item.Icon size={18} />
                 </a>
               ))}
             </div>
-            <div className="about-contact-compact">
-              <h4>Reach Us</h4>
-              <ul className="contact-list compact">
-                {contactCards.map((card) => (
-                  <li className="contact-list-item" key={`compact-${card.title}`}>
-                    <span className="contact-icon">{card.icon}</span>
-                    <div className="contact-text">
-                      <span className="contact-title">{card.title}</span>
-                      {card.href ? (
-                        <a href={card.href} className="contact-value">{card.value}</a>
-                      ) : (
-                        <span className="contact-value">{card.value}</span>
-                      )}
-                      {card.details && (
-                        <span className="contact-muted">{card.details.join(" • ")}</span>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
+          </div>
 
-          <section className="footer-block footer-links-card">
-            <h4>Quick Links</h4>
-            <div className="link-card-grid">
-              {quickLinks.map((link) => (
-                <a key={link.label} href={link.href} className="link-card">
-                  <span>{link.label}</span>
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </a>
-              ))}
+          {/* Center: Contact */}
+          <div className="footer-contact">
+            <h4>Get in Touch</h4>
+            {contactCards.map((card) => (
+              <span key={card.title}>
+                {card.icon}
+                {card.href ? (
+                  <a href={card.href}>{card.value}</a>
+                ) : (
+                  <span>{card.value}</span>
+                )}
+                {card.details && <small>{card.details.join(", ")}</small>}
+              </span>
+            ))}
+          </div>
+
+          {/* Right: Actions */}
+          <div className="footer-actions">
+            <div className="action-buttons">
+              <a href="/donate" className="btn-primary">Donate Now</a>
+              <a href="/contact" className="btn-secondary">Contact Us</a>
             </div>
-          </section>
+          </div>
         </div>
 
+        {/* Bottom Bar */}
         <div className="footer-bottom">
-          <p>© 2025 As-sa&apos;adah Foundation. All rights reserved.</p>
-          <div className="footer-links">
-            <a href="/privacy">Privacy Policy</a>
-            <span>•</span>
-            <a href="/terms">Terms of Service</a>
-            <span>•</span>
-            <a href="/transparency">Transparency Report</a>
+          <div className="legal">
+            <span>© 2025 As-sa&apos;adah. All rights reserved.</span>
+            <div className="legal-links">
+              <a href="/privacy">Privacy Policy</a>
+              <a href="/terms">Terms of Service</a>
+              <a href="/transparency">Transparency Report</a>
+            </div>
           </div>
         </div>
       </div>
 
       <style jsx>{`
         .footer {
-          position: relative;
-          background: linear-gradient(135deg, rgba(10, 31, 16, 0.9), rgba(6, 17, 10, 0.9)),
-            url('/footer image.jpg') center/cover no-repeat;
+          background: #1a472a;
           color: white;
-          padding: 40px 0 15px;
-          overflow: hidden;
+          padding: 30px 0 15px;
         }
 
-        .footer-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(135deg, rgba(6, 35, 16, 0.85), rgba(8, 51, 24, 0.75)),
-            radial-gradient(circle at top right, rgba(52, 211, 153, 0.25), transparent 45%),
-            radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.2), transparent 40%);
-          z-index: 0;
-        }
-
-        .footer-inner {
-          position: relative;
-          z-index: 1;
-          width: min(1200px, 100%);
+        .footer-container {
+          max-width: 1200px;
           margin: 0 auto;
-          padding: 0 18px;
+          padding: 0 20px;
         }
 
-        .footer-hero {
-          display: flex;
-          justify-content: space-between;
-          gap: 1.5rem;
-          padding: 1.1rem 1.2rem;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 20px;
-          background: rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(8px);
-          flex-wrap: wrap;
+        /* Quote at Top */
+        .quote-top {
+          text-align: center;
+          padding: 20px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+          margin-bottom: 25px;
         }
 
-        .footer-hero-text {
-          flex: 1 1 320px;
-          min-width: 0;
+        .quote-top em {
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.9);
+          line-height: 1.5;
+          font-style: italic;
         }
 
-        .footer-hero-text h2 {
-          font-size: clamp(1.8rem, 4vw, 2.4rem);
-          margin: 0.6rem 0;
-          font-family: 'Montserrat', sans-serif;
-        }
-
-        .footer-hero-text p {
-          margin: 0;
-          color: rgba(255, 255, 255, 0.85);
-          line-height: 1.6;
-        }
-
-        .footer-badge {
-          padding: 0.35rem 0.9rem;
-          border-radius: 999px;
-          border: 1px solid rgba(255, 255, 255, 0.35);
-          text-transform: uppercase;
-          font-size: 0.75rem;
-          letter-spacing: 0.22em;
-          color: rgba(255, 255, 255, 0.8);
-        }
-
-        .footer-hero-cta {
-          display: flex;
-          flex: 1 1 260px;
-          align-items: center;
-          gap: 0.75rem;
-          justify-content: flex-end;
-          flex-wrap: wrap;
-        }
-
-        .footer-btn {
-          padding: 0.85rem 1.8rem;
-          border-radius: 999px;
-          font-weight: 600;
-          text-decoration: none;
-          transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border 0.25s ease;
-        }
-
-        .footer-btn.primary {
-          background: linear-gradient(135deg, #34d399, #059669);
-          color: #04150c;
-          box-shadow: 0 12px 25px rgba(52, 211, 153, 0.35);
-        }
-
-        .footer-btn.secondary {
-          border: 1px solid rgba(255, 255, 255, 0.4);
-          color: white;
-        }
-
-        .footer-grid {
+        /* Main Footer */
+        .footer-main {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 1.2rem;
-          margin-top: 1.4rem;
-          align-items: stretch;
+          grid-template-columns: 2fr 1fr 1fr;
+          gap: 30px;
+          margin-bottom: 20px;
         }
 
-        .footer-block {
-          background: rgba(255, 255, 255, 0.02);
-          padding: 1.2rem;
-          border-radius: 15px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          height: 100%;
+        /* Branding */
+        .brand-info {
           display: flex;
-          flex-direction: column;
-        }
-
-        .footer-about {
-          grid-column: span 2;
-          display: flex;
-          flex-direction: column;
-        }
-
-        @media (max-width: 900px) {
-          .footer-about {
-            grid-column: span 1;
-          }
+          align-items: flex-start;
+          gap: 15px;
         }
 
         .footer-logo {
+          height: 50px;
+          width: auto;
+          flex-shrink: 0;
+        }
+
+        .brand-text h3 {
+          margin: 0 0 5px 0;
+          font-size: 1.5rem;
+          font-weight: 700;
+          white-space: nowrap;
+          word-break: keep-all;
+          overflow-wrap: normal;
+          hyphens: none;
+        }
+
+        .tagline {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 2px 8px;
+          border-radius: 10px;
+          font-size: 0.7rem;
+          margin-bottom: 8px;
+          display: inline-block;
+        }
+
+        .brand-text p {
+          margin: 8px 0 0 0;
+          color: rgba(255, 255, 255, 0.85);
+          font-size: 0.9rem;
+          line-height: 1.4;
+        }
+
+        /* Contact */
+        .footer-contact h4 {
+          margin: 0 0 15px 0;
+          font-size: 1.1rem;
+          color: #68d391;
+        }
+
+
+        .footer-contact span {
           display: flex;
           align-items: center;
-          gap: 0.9rem;
-        }
-
-        .footer-logo img {
-          height: 64px;
-          width: auto;
-          filter: brightness(0) invert(1);
-        }
-
-        .footer-logo h3 {
-          margin: 0;
-          font-size: 1.3rem;
-        }
-
-        .footer-description {
-          margin: 0.75rem 0 1rem;
-          color: rgba(255, 255, 255, 0.85);
-          line-height: 1.6;
-        }
-
-        .footer-mission {
-          background: rgba(255, 255, 255, 0.04);
-          padding: 1rem;
-          border-radius: 14px;
-          border-left: 4px solid #34d399;
-          font-style: italic;
-          margin-bottom: 1rem;
-        }
-
-        .footer-mission p {
-          margin: 0 0 0.4rem;
-        }
-
-        .footer-mission span {
-          color: rgba(255, 255, 255, 0.75);
+          gap: 10px;
           font-size: 0.85rem;
+          margin-bottom: 8px;
+        }
+
+        .footer-contact span span {
+          white-space: pre-line;
+          line-height: 1.3;
+          word-break: keep-all;
+          overflow-wrap: normal;
+          hyphens: none;
+        }
+
+        .footer-contact svg {
+          width: 20px;
+          height: 20px;
+          color: #68d391;
+          flex-shrink: 0;
+          stroke-width: 2.5;
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        .footer-contact svg[width="28"] {
+          width: 28px;
+          height: 28px;
+        }
+
+        .footer-contact a {
+          color: white;
+          text-decoration: none;
+        }
+
+        .footer-contact a:hover {
+          color: #68d391;
+        }
+
+        .footer-contact small {
+          display: block;
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 0.75rem;
+          margin-top: 2px;
+        }
+
+        /* Actions */
+        .action-buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-bottom: 15px;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+          padding: 8px 16px;
+          border-radius: 6px;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.85rem;
+          text-align: center;
+        }
+
+        .btn-primary {
+          background: #1a472a;
+          color: #68d391;
+        }
+
+        .btn-primary:hover {
+          background: #4ade80;
+          color: #1a472a;
+        }
+
+        .btn-secondary {
+          background: transparent;
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.1);
         }
 
         .social-links {
           display: flex;
-          gap: 0.6rem;
+          gap: 8px;
           flex-wrap: wrap;
+          margin-top: 15px;
         }
 
         .social-link {
-          width: 44px;
-          height: 44px;
-          border-radius: 12px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          width: 30px;
+          height: 30px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: background 0.25s ease, border 0.25s ease, transform 0.25s ease;
-        }
-
-        .social-link svg {
-          width: 22px;
-          height: 22px;
-          display: block;
-        }
-
-        .about-contact-compact {
-          margin-top: 1.5rem;
-          padding-top: 1.2rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .about-contact-compact h4 {
-          margin: 0 0 0.8rem;
-          color: #99f6e4;
-        }
-
-        .contact-list.compact {
-          gap: 0.5rem;
-        }
-
-        .footer-block h4 {
-          font-size: 1.1rem;
-          margin: 0 0 0.6rem;
-          color: #99f6e4;
-          flex-shrink: 0;
-        }
-
-        .link-card-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-          gap: 0.75rem;
-          flex: 1;
-        }
-
-        .link-card {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 0.8rem;
-          padding: 0.6rem 0.9rem;
-          border-radius: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          background: rgba(255, 255, 255, 0.03);
-          color: rgba(255, 255, 255, 0.85);
-          font-size: 0.95rem;
-          text-decoration: none;
-          transition: border 0.25s ease, background 0.25s ease, color 0.25s ease, transform 0.25s ease;
-        }
-
-        .contact-list {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .contact-list-item {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          padding: 0.65rem 0.8rem;
-          border-radius: 14px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .contact-icon {
-          width: 42px;
-          height: 42px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, rgba(52, 211, 153, 0.95), rgba(16, 185, 129, 0.85));
           color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
         }
 
-        .contact-icon svg {
-          width: 18px;
-          height: 18px;
+        .social-link:hover {
+          background: rgba(255, 255, 255, 0.2);
         }
 
-        .contact-text {
-          display: flex;
-          flex-direction: column;
-          gap: 0.05rem;
-        }
-
-        .contact-title {
-          margin: 0;
-          font-size: 0.78rem;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.65);
-        }
-
-        .contact-value {
-          color: white;
-          font-weight: 600;
-          text-decoration: none;
-        }
-
-        .contact-muted {
-          font-size: 0.9rem;
-          color: rgba(255, 255, 255, 0.65);
-        }
-
+        /* Bottom Bar */
         .footer-bottom {
-          margin-top: 1.5rem;
-          padding-top: 0.75rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.12);
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 0.5rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.2);
+          padding-top: 15px;
+          text-align: center;
+        }
+
+        .legal {
+          text-align: center;
+        }
+
+        .legal span {
+          display: block;
+          font-size: 0.8rem;
           color: rgba(255, 255, 255, 0.7);
-          font-size: 0.9rem;
+          margin-bottom: 5px;
+          white-space: nowrap;
+          word-break: keep-all;
+          overflow-wrap: normal;
+          hyphens: none;
         }
 
-        .footer-links {
+        .legal-links {
           display: flex;
-          align-items: center;
-          gap: 0.5rem;
+          gap: 15px;
+          justify-content: center;
         }
 
-        .footer-links a {
-          color: rgba(255, 255, 255, 0.75);
+        .legal-links a {
+          color: rgba(255, 255, 255, 0.6);
           text-decoration: none;
+          font-size: 0.75rem;
         }
 
-        @media (max-width: 1200px) {
-          .footer-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 1rem;
-          }
+        .legal-links a:hover {
+          color: white;
         }
 
-        @media (max-width: 900px) {
-          .footer-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
-          .footer-inner {
-            padding: 0 12px;
-          }
-
-          .footer-hero {
-            text-align: center;
-            padding: 1rem;
-            flex-direction: column;
-          }
-
-          .footer-hero-text h2 {
-            font-size: 1.6rem;
-          }
-
-          .footer-hero-cta {
-            justify-content: center;
-            flex-direction: column;
-            align-items: stretch;
-            width: 100%;
-          }
-
-          .footer-btn {
-            width: 100%;
-            text-align: center;
-          }
-
-          .footer-grid {
+          .footer-main {
             grid-template-columns: 1fr;
+            gap: 20px;
           }
 
-          .footer-block {
-            text-align: center;
-            padding: 1rem;
-          }
-
-          .footer-logo {
+          .brand-info {
             flex-direction: column;
-          }
-
-          .link-card-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .contact-list-item {
-            justify-content: center;
-            flex-wrap: wrap;
-          }
-
-          .contact-text {
+            text-align: center;
             align-items: center;
           }
 
-          .footer-bottom {
-            flex-direction: column;
-            text-align: center;
+          .brand-text h3 {
+            font-size: 1.3rem;
+            word-break: keep-all;
+            overflow-wrap: normal;
+            hyphens: none;
+          }
+
+          .legal-links {
+            justify-content: center;
+            flex-wrap: wrap;
           }
         }
 
         @media (max-width: 480px) {
-          .footer-inner {
-            padding: 0 10px;
+          .footer {
+            padding: 20px 0 10px;
           }
 
-          .footer-hero {
-            padding: 0.85rem;
+          .footer-container {
+            padding: 0 15px;
           }
 
-          .footer-block {
-            padding: 0.85rem;
+          .action-buttons {
+            flex-direction: row;
           }
 
-          .contact-list-item {
-            flex-direction: column;
-            gap: 0.5rem;
+          .brand-info {
+            gap: 10px;
+          }
+
+          .brand-text h3 {
+            font-size: 1.1rem;
+            word-break: keep-all;
+            overflow-wrap: normal;
+            hyphens: none;
+          }
+
+          .footer-logo {
+            height: 40px;
+          }
+
+          .legal span {
+            font-size: 0.75rem;
+            word-break: keep-all;
+            overflow-wrap: normal;
+            hyphens: none;
           }
         }
       `}</style>

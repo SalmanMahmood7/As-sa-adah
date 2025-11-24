@@ -5,8 +5,30 @@ import { useRouter } from 'next/router';
 export default function About() {
   const [isVisible, setIsVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const router = useRouter();
   const isHomePage = router?.pathname === '/';
+
+  const slides = [
+    {
+      id: 'vision',
+      subtitle: 'About As-sa\'adah',
+      title: 'Vision of As-sa\'adah',
+      content: [
+        'As-Saadah is a multidimensional intellectual and educational movement dedicated to empowering graduates of traditional seminaries (Madaris) with the knowledge, creativity, and practical skills necessary to meet the evolving challenges of the modern world. It envisions a transformative framework that unites classical Islamic scholarship with contemporary sciences and technology, cultivating scholars who serve not only as spiritual and moral guides but as visionary leaders contributing to social, intellectual, and economic progress.',
+        'As the first organized initiative of its kind in the Muslim world, As-Saadah seeks to produce an independent generation capable of developing indigenous technological alternatives to Western dominance—enabling the Muslim Ummah to reclaim its global identity and contribute to the creation of a balanced, dignified, and self-reliant world order.'
+      ]
+    },
+    {
+      id: 'mission',
+      subtitle: 'About As-sa\'adah',
+      title: 'Mission of As-sa\'adah',
+      content: [
+        'As-Saadah\'s mission is to redefine the intellectual and socio-economic role of Madrasah graduates by integrating classical Islamic scholarship with modern sciences, technology, and leadership development.',
+        'It seeks to cultivate a new generation of visionary \'Ulama who unite faith with functionality and tradition with transformation - reviving critical thought, fostering economic self-reliance through skill empowerment and entrepreneurship, and inspiring ethical, globally aware leadership. By bridging traditional and modern institutions and promoting indigenous technological innovation that challenges Western dominance, As-Saadah aims to initiate a civilizational renewal - where the Muslim Ummah reclaims its intellectual authority, moral influence, and constructive role in shaping a just, balanced, and self-sustained world order.'
+      ]
+    }
+  ];
 
   useEffect(() => {
     if (!isHomePage) return;
@@ -27,6 +49,17 @@ export default function About() {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isHomePage]);
+
+  // Auto-slide functionality
+  useEffect(() => {
+    if (!isHomePage) return;
+
+    const slideInterval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 8000); // Change slide every 8 seconds
+
+    return () => clearInterval(slideInterval);
+  }, [isHomePage, slides.length]);
 
   if (!isHomePage) {
     return null;
@@ -64,21 +97,27 @@ export default function About() {
               {/* Text Content */}
               <div className={`about-heading ${isMounted && isVisible ? 'fade-in' : ''}`}>
                 <div className="about-heading-content">
-                  <p className="about-section-subtitle">About As-sa'adah Foundation</p>
-                  <h2 className="about-section-title">Comprehensive Islamic Welfare Organization</h2>
+                  <p className="about-section-subtitle">{slides[currentSlide].subtitle}</p>
+                  <h2 className="about-section-title">{slides[currentSlide].title}</h2>
                   <div className="about-section-description">
-                    <p>
-                      As-sa'adah Foundation is a comprehensive Islamic welfare organization dedicated to 
-                      social development, individual well-being, and spiritual growth. Based on Islamic 
-                      principles of compassion and justice, we operate diverse programs spanning education, 
-                      healthcare, poverty alleviation, women and children welfare, environmental protection, 
-                      emergency relief, and spiritual development. Our mission is to create sustainable 
-                      positive change through holistic community empowerment initiatives that address both 
-                      worldly needs and spiritual growth of individuals and communities.
-                    </p>
+                    {slides[currentSlide].content.map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Slide Indicators */}
+            <div className={`slide-indicators ${isMounted && isVisible ? 'fade-in' : ''}`}>
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  className={`slide-dot ${currentSlide === index ? 'active' : ''}`}
+                  onClick={() => setCurrentSlide(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
             </div>
 
             {/* Button */}
@@ -95,16 +134,22 @@ export default function About() {
         .about-section-floating {
           position: relative;
           z-index: 10;
-          margin-top: 60px;
-          margin-bottom: 50px;
-          padding: 0;
+          margin: 60px auto 50px;
+          padding: 0 20px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
 
         .about-container {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 0 20px;
+          padding: 0;
           position: relative;
+          width: 100%;
+          display: flex;
+          justify-content: center;
         }
 
         .about-floating-card {
@@ -190,7 +235,7 @@ export default function About() {
         }
 
         .about-section-subtitle {
-          color: var(--primary-color);
+          color: #1a472a;
           font-size: 0.8rem;
           font-weight: 600;
           text-transform: uppercase;
@@ -200,7 +245,7 @@ export default function About() {
         }
 
         .about-section-title {
-          color: var(--primary-color);
+          color: #1a472a;
           font-size: 1.9rem;
           font-weight: 800;
           margin-bottom: 1rem;
@@ -213,12 +258,16 @@ export default function About() {
         }
 
         .about-section-description p {
-          color: var(--text-gray);
+          color: #666;
           font-size: 0.9rem;
           line-height: 1.6;
-          margin: 0;
+          margin: 0 0 1rem 0;
           text-align: justify;
           text-justify: inter-word;
+        }
+
+        .about-section-description p:last-child {
+          margin-bottom: 0;
         }
 
         .about-button {
@@ -234,9 +283,43 @@ export default function About() {
           transform: translateY(0);
         }
 
+        .slide-indicators {
+          display: flex;
+          justify-content: center;
+          gap: 12px;
+          margin: 1.5rem 0;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s ease 0.1s;
+        }
+
+        .slide-indicators.fade-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .slide-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(26, 71, 42, 0.3);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .slide-dot.active {
+          background: #1a472a;
+          transform: scale(1.2);
+        }
+
+        .slide-dot:hover {
+          background: rgba(26, 71, 42, 0.6);
+        }
+
         .about-discover-btn {
           display: inline-block;
-          background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+          background: linear-gradient(135deg, #1a472a, #22543d);
           color: white;
           padding: 0.8rem 2rem;
           border-radius: 50px;
@@ -244,7 +327,7 @@ export default function About() {
           font-family: 'Montserrat', sans-serif;
           font-size: 0.9rem;
           text-decoration: none;
-          box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3);
+          box-shadow: 0 6px 20px rgba(26, 71, 42, 0.3);
           transition: all 0.3s ease;
           border: none;
           cursor: pointer;

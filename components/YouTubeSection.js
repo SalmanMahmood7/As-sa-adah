@@ -24,12 +24,12 @@ export default function YouTubeSection() {
     },
     {
       id: "3",
-      videoId: "VIDEO_ID_3", // Replace with actual video ID
+      videoId: "OT_ew0Gh8Hc", // Real video from As-saadah channel
       title: "Community Bootcamp Session"
     },
     {
       id: "4",
-      videoId: "VIDEO_ID_4", // Replace with actual video ID
+      videoId: "91PhCsCa1fk", // Real video from As-saadah channel (YouTube Shorts)
       title: "Student Success Stories"
     },
     {

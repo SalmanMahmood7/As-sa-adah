@@ -3,6 +3,20 @@ import { useState, useEffect } from 'react';
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const handleAnchorClick = (e, targetId) => {
+    e.preventDefault();
+    const target = document.getElementById(targetId);
+    if (target) {
+      const headerHeight = 80; // Adjust based on your header height
+      const targetPosition = target.offsetTop - headerHeight;
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+    setIsMobileMenuOpen(false); // Close mobile menu if open
+  };
+
   return (
     <header className="new-transparent-header">
       <div className="nav-container">
@@ -20,19 +34,9 @@ export default function Header() {
 
           {/* Navigation Links */}
           <nav className="nav-links">
-            <a href="/" className="nav-item active">Home</a>
-            <a href="/about" className="nav-item">About Us</a>
-            <div className="dropdown">
-              <span className="nav-item">Programs ▾</span>
-              <div className="dropdown-menu">
-                <a href="/programs#education">Education Programs</a>
-                <a href="/programs#healthcare">Healthcare</a>
-                <a href="/programs#community">Community Development</a>
-                <a href="/programs#emergency">Emergency Relief</a>
-              </div>
-            </div>
-            <a href="/impact" className="nav-item">Our Impact</a>
-            <a href="/volunteer" className="nav-item">Volunteer</a>
+            <a href="#about" className="nav-item" onClick={(e) => handleAnchorClick(e, 'about')}>About Us</a>
+            <a href="#leadership" className="nav-item" onClick={(e) => handleAnchorClick(e, 'leadership')}>Leadership</a>
+            <a href="#impact" className="nav-item" onClick={(e) => handleAnchorClick(e, 'impact')}>Our Impact</a>
             <a href="/contact" className="nav-item">Contact Us</a>
           </nav>
 
@@ -54,14 +58,9 @@ export default function Header() {
 
         {/* Mobile Menu */}
         <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
-          <a href="/" className="mobile-nav-item">Home</a>
-          <a href="/about" className="mobile-nav-item">About Us</a>
-          <a href="/programs#education" className="mobile-nav-item">Education Programs</a>
-          <a href="/programs#healthcare" className="mobile-nav-item">Healthcare</a>
-          <a href="/programs#community" className="mobile-nav-item">Community Development</a>
-          <a href="/programs#emergency" className="mobile-nav-item">Emergency Relief</a>
-          <a href="/impact" className="mobile-nav-item">Our Impact</a>
-          <a href="/volunteer" className="mobile-nav-item">Volunteer</a>
+          <a href="#about" className="mobile-nav-item" onClick={(e) => handleAnchorClick(e, 'about')}>About Us</a>
+          <a href="#leadership" className="mobile-nav-item" onClick={(e) => handleAnchorClick(e, 'leadership')}>Leadership</a>
+          <a href="#impact" className="mobile-nav-item" onClick={(e) => handleAnchorClick(e, 'impact')}>Our Impact</a>
           <a href="/contact" className="mobile-nav-item">Contact Us</a>
           <a href="/donate" className="mobile-donate-btn">Donate Now</a>
         </div>
@@ -102,6 +101,10 @@ export default function Header() {
           transition: transform 0.3s ease;
         }
 
+        .logo:hover {
+          transform: scale(1.05);
+        }
+
         .nav-links {
           display: flex;
           align-items: center;
@@ -119,6 +122,13 @@ export default function Header() {
           transition: all 0.3s ease;
           font-size: 0.95rem;
           white-space: nowrap;
+        }
+
+        .nav-item:hover {
+          background: linear-gradient(135deg, #1a472a, #22543d);
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
         }
 
         .nav-item.active {
@@ -166,6 +176,12 @@ export default function Header() {
           transition: all 0.3s ease;
         }
 
+        .dropdown-menu a:hover {
+          background: linear-gradient(135deg, #1a472a, #22543d);
+          color: white;
+          transform: translateX(5px);
+        }
+
         .donate-section {
           flex-shrink: 0;
         }
@@ -180,6 +196,12 @@ export default function Header() {
           font-size: 0.9rem;
           transition: all 0.3s ease;
           box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
+        }
+
+        .donate-btn:hover {
+          background: linear-gradient(135deg, #22543d, #2f855a);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(26, 71, 42, 0.4);
         }
 
         .mobile-toggle {
@@ -222,7 +244,13 @@ export default function Header() {
           text-decoration: none;
           font-weight: 500;
           border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-          transition: color 0.3s ease;
+          transition: all 0.3s ease;
+        }
+
+        .mobile-nav-item:hover {
+          color: #1a472a;
+          padding-left: 10px;
+          background: linear-gradient(90deg, rgba(26, 71, 42, 0.1), transparent);
         }
 
         .mobile-nav-item:last-child {
@@ -240,6 +268,12 @@ export default function Header() {
           text-align: center;
           margin-top: 15px;
           transition: all 0.3s ease;
+        }
+
+        .mobile-donate-btn:hover {
+          background: linear-gradient(135deg, #22543d, #2f855a);
+          transform: scale(1.02);
+          box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
         }
 
         /* Mobile Styles */

@@ -51,40 +51,6 @@ export default function Testimonials() {
         </div>
       </div>
 
-      {/* Hexagonal Layout */}
-      <div className="testimonials-hexagon-container">
-        <div className="hexagon-grid">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className={`hexagon-testimonial hex-${index + 1}`}>
-              <div className="hexagon-shape">
-                <div className="hexagon-content">
-                  <div className="person-avatar">
-                    <div className="avatar-circle">
-                      <span className="initial">{testimonial.name[0]}</span>
-                    </div>
-                    <div className="rating-stars">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <span key={i} className="hex-star">★</span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="quote-section">
-                    <div className="quote-mark">"</div>
-                    <p className="quote-text">{testimonial.quote}</p>
-                  </div>
-                  
-                  <div className="person-details">
-                    <h4 className="person-name">{testimonial.name}</h4>
-                    <p className="person-role">{testimonial.role}</p>
-                    <span className="person-org">{testimonial.company}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Circular CTA Section */}
       <div className="circular-cta">
@@ -266,148 +232,6 @@ export default function Testimonials() {
           50% { transform: translateY(-20px) rotate(180deg); }
         }
 
-        /* Square Layout */
-        .testimonials-hexagon-container {
-          padding: 80px 20px;
-          max-width: 1200px;
-          margin: 0 auto;
-          position: relative;
-        }
-
-        .hexagon-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 30px;
-          position: relative;
-        }
-
-        .hexagon-testimonial {
-          position: relative;
-          width: 100%;
-          min-height: 320px;
-          transition: all 0.5s ease;
-        }
-
-        .hexagon-shape {
-          width: 100%;
-          height: 100%;
-          background: #fff;
-          border-radius: 15px;
-          box-shadow: 0 10px 25px rgba(26, 71, 42, 0.08);
-          transition: all 0.4s ease;
-          position: relative;
-          overflow: hidden;
-          border: 1px solid rgba(26, 71, 42, 0.1);
-        }
-
-        .hexagon-content {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: center;
-          text-align: center;
-          padding: 25px 20px;
-        }
-
-        .person-avatar {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .avatar-circle {
-          width: 60px;
-          height: 60px;
-          background: linear-gradient(135deg, #1a472a, #22543d);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          font-size: 24px;
-          font-weight: 700;
-          box-shadow: 0 8px 20px rgba(26, 71, 42, 0.3);
-        }
-
-        .rating-stars {
-          display: flex;
-          gap: 2px;
-        }
-
-        .hex-star {
-          color: #f59e0b;
-          font-size: 14px;
-        }
-
-        .quote-section {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          position: relative;
-          margin: 15px 0;
-        }
-
-        .quote-mark {
-          font-size: 60px;
-          color: #68d391;
-          opacity: 0.3;
-          position: absolute;
-          top: -20px;
-          left: -10px;
-          font-family: serif;
-        }
-
-        .quote-text {
-          font-size: 13px;
-          line-height: 1.5;
-          color: #374151;
-          margin: 0;
-          position: relative;
-          z-index: 1;
-          font-style: italic;
-        }
-
-        .person-details {
-          margin-top: 10px;
-        }
-
-        .person-name {
-          color: #1a472a;
-          font-size: 16px;
-          font-weight: 700;
-          margin: 0 0 5px 0;
-        }
-
-        .person-role {
-          color: #22543d;
-          font-size: 12px;
-          font-weight: 600;
-          margin: 0 0 3px 0;
-        }
-
-        .person-org {
-          color: #68d391;
-          font-size: 10px;
-          font-weight: 500;
-        }
-
-        /* Staggered Animation */
-        .hex-1 { animation: slideInUp 0.6s ease forwards; animation-delay: 0.1s; opacity: 0; }
-        .hex-2 { animation: slideInUp 0.6s ease forwards; animation-delay: 0.3s; opacity: 0; }
-        .hex-3 { animation: slideInUp 0.6s ease forwards; animation-delay: 0.5s; opacity: 0; }
-        .hex-4 { animation: slideInUp 0.6s ease forwards; animation-delay: 0.7s; opacity: 0; }
-
-        @keyframes slideInUp {
-          from { transform: translateY(50px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
 
         /* Circular CTA */
         .circular-cta {
@@ -540,17 +364,6 @@ export default function Testimonials() {
             font-size: 2.5rem;
           }
 
-          .hexagon-grid {
-            grid-template-columns: 1fr;
-            gap: 25px;
-          }
-
-          .hexagon-testimonial {
-            max-width: 400px;
-            margin: 0 auto;
-            min-height: 280px;
-          }
-
           .cta-circle {
             width: 300px;
             height: 300px;
@@ -568,10 +381,6 @@ export default function Testimonials() {
 
           .main-title {
             font-size: 2rem;
-          }
-
-          .testimonials-hexagon-container {
-            padding: 60px 20px;
           }
 
           .cta-circle {

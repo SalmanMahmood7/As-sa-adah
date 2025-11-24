@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function ImpactStories() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -6,46 +7,39 @@ export default function ImpactStories() {
 
   const impactStories = [
     {
-      title: "Education Transformed My Life",
-      story: "As-sa'adah Foundation's scholarship program gave me the opportunity to pursue higher education when my family couldn't afford it. Now I'm a teacher helping other children in my community.",
-      name: "Fatima Ahmed",
-      position: "Teacher & Scholarship Recipient",
-      image: "/testimonial-1.jpg"
+      title: "Digital Skills Course Excellence",
+      story: "I recently completed a 6-month Digital Skills course at As-sa'adah, Islamabad, and it was an excellent learning experience. The instructors were supportive, the training was practical, and I gained valuable skills in digital media, social media, and modern IT tools. This course really improved my confidence and helped me adapt to today's digital world. I highly recommend it!",
+      name: "Muhammad bin Tahir",
+      position: "Digital Skills Graduate, Lahore",
+      image: "/muhammad.jpg"
     },
     {
-      title: "Medical Care When We Needed Most",
-      story: "When my father needed urgent surgery, As-sa'adah Foundation's medical assistance program covered all expenses. Their support saved his life and our family from financial ruin.",
-      name: "Muhammad Hassan",
-      position: "Beneficiary Family",
-      image: "/testimonial-2.jpg"
+      title: "Full-Stack Development Journey",
+      story: "At As-Sa'adah, I learned full-stack development while living a simple and focused lifestyle. This experience strengthened my technical abilities, enhanced my soft skills, and brought clarity to my vision and mission. The Bootcamp refined my competencies and gave my goals clear direction. I strongly recommend this transformative program to Ulama and graduates of Dars-e-Nizami.",
+      name: "Muhammad Yousuf Umar",
+      position: "Full-Stack Developer, Sadiqabad",
+      image: "/Yousef.jpg"
     },
     {
-      title: "From Poverty to Self-Reliance",
-      story: "The skill development program taught me tailoring. With the sewing machine they provided, I started my own business and now support my entire family with dignity.",
-      name: "Aisha Bibi",
-      position: "Entrepreneur & Program Graduate",
-      image: "/testimonial-3.jpg"
+      title: "Religious Empowerment Program",
+      story: "The As-Sa'adah IT Bootcamp under the Religious Empowerment program was a pivotal experience that enhanced my technical proficiency and essential soft skills, giving me clear professional vision. I strongly recommend this high-value program to Ulama and graduates of Dars-e-Nizami as a strategic investment of their time.",
+      name: "Syed Usman Gillani",
+      position: "IT Professional, Multan",
+      image: "/usman.jpg"
     },
     {
-      title: "Clean Water Changed Everything",
-      story: "Before the water well project in our village, we walked hours daily for water. Now our children attend school instead of fetching water, and waterborne diseases have disappeared.",
-      name: "Ibrahim Khan",
-      position: "Village Elder",
-      image: "/testimonial-4.jpg"
+      title: "Global Digital Skills Training",
+      story: "I discovered this bootcamp right after completing my educational journey in Multan. The program provided excellent training in global and digital skills that taught us how to serve the world in a better way. We received outstanding trainers who showed us how to invest our time productively and develop valuable technical skills.",
+      name: "Muhammad Osama Amin",
+      position: "Bootcamp Graduate, Multan",
+      image: "/usamaa.jpg"
     },
     {
-      title: "Emergency Relief in Crisis",
-      story: "When floods destroyed our home, As-sa'adah Foundation provided immediate shelter, food, and rebuilding materials. They stood by us when we had nowhere to turn.",
-      name: "Khadija Malik",
-      position: "Flood Victim & Survivor",
-      image: "/testimonial-5.jpg"
-    },
-    {
-      title: "Spiritual Growth Through Knowledge",
-      story: "The Islamic education classes at our mosque helped me understand my faith deeply. The knowledge I gained guides every aspect of my life and brings peace to my heart.",
-      name: "Abdullah Rashid",
-      position: "Community Student",
-      image: "/testimonial-6.jpg"
+      title: "VR/360° Development & Professional Growth",
+      story: "My experience at As-Sa'adah was truly transformative. During the Bootcamp, I gained hands-on expertise in full-stack development and developed practical VR/360° projects within a highly focused and disciplined environment. This program not only enhanced my technical capabilities but also strengthened my soft skills and provided clarity in defining my professional goals. I wholeheartedly encourage Ulama and Dars-e-Nizami graduates to participate in this program, as it offers a rare opportunity to acquire modern technical skills while enhancing personal and professional growth. This experience is not only practical but also a meaningful investment in their future.",
+      name: "Owais Ahmad",
+      position: "VR Developer, Dir Lower, KPK",
+      image: "/owais.jpg"
     }
   ];
 
@@ -122,14 +116,63 @@ export default function ImpactStories() {
 
                     <div className="testimonial-client-info">
                       <div className="testimonial-avatar">
-                        <div className="testimonial-image">
-                          <img
-                            src={story.image}
-                            alt={story.name}
-                            onError={(e) => {
-                              e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMzAiIGZpbGw9IiNmM2Y0ZjYiLz4KPGNpcmNsZSBjeD0iMzAiIGN5PSIyNSIgcj0iMTAiIGZpbGw9IiM5Y2EzYWYiLz4KPHBhdGggZD0iTTEwIDUwYzAtMTEuMDQ2IDguOTU0LTIwIDIwLTIwczIwIDguOTU0IDIwIDIwIiBmaWxsPSIjOWNhM2FmIi8+Cjwvc3ZnPgo=';
-                            }}
-                          />
+                        <div className="testimonial-image" data-name={story.name.split(' ').map(n => n[0]).join('')}>
+                          {story.image.startsWith('data:') ? (
+                            <img
+                              src={story.image}
+                              alt={story.name}
+                              className="profile-image"
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                borderRadius: '50%'
+                              }}
+                            />
+                          ) : (
+                            <>
+                              <Image
+                                src={story.image}
+                                alt={story.name}
+                                width={70}
+                                height={70}
+                                className="profile-image"
+                                onLoadingComplete={() => {
+                                  console.log(`✓ Successfully loaded: ${story.image}`);
+                                }}
+                                onError={(e) => {
+                                  console.log(`✗ Failed to load: ${story.image}`);
+                                }}
+                                unoptimized
+                              />
+                              <img
+                                src={story.image}
+                                alt={story.name}
+                                className="profile-image-fallback"
+                                onLoad={(e) => {
+                                  e.target.style.display = 'block';
+                                  e.target.style.opacity = '1';
+                                  console.log(`✓ Fallback loaded: ${story.image}`);
+                                }}
+                                onError={(e) => {
+                                  console.log(`✗ Fallback failed: ${story.image}`);
+                                  e.target.style.display = 'none';
+                                }}
+                                style={{
+                                  display: 'none',
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'cover',
+                                  borderRadius: '50%',
+                                  position: 'absolute',
+                                  top: 0,
+                                  left: 0,
+                                  opacity: 0,
+                                  transition: 'opacity 0.3s ease'
+                                }}
+                              />
+                            </>
+                          )}
                         </div>
                       </div>
                       
@@ -155,8 +198,8 @@ export default function ImpactStories() {
 
       <style jsx>{`
         .impact-stories-section {
-          padding: 100px 0;
-          background: var(--light-bg);
+          padding: 50px 0;
+          background: #f8fafc;
           position: relative;
         }
 
@@ -168,14 +211,14 @@ export default function ImpactStories() {
         .section-title {
           font-size: 2.5rem;
           font-weight: 700;
-          color: var(--primary-color);
+          color: #1a472a;
           margin-bottom: 1rem;
           font-family: 'Montserrat', sans-serif;
         }
 
         .section-description {
           font-size: 1.1rem;
-          color: var(--text-gray);
+          color: #666;
           max-width: 600px;
           margin: 0 auto;
           line-height: 1.6;
@@ -206,14 +249,14 @@ export default function ImpactStories() {
         }
 
         .pagination-bullet.active {
-          background: var(--primary-color);
+          background: #1a472a;
           transform: scale(1.2);
         }
 
         .testimonial-container {
           position: relative;
           overflow: hidden;
-          height: 400px;
+          height: 540px;
         }
 
         .testimonial-wrapper {
@@ -223,15 +266,15 @@ export default function ImpactStories() {
         }
 
         .testimonial-slide {
-          min-width: 370px;
+          min-width: 400px;
           margin-right: 30px;
-          height: 100%;
+          height: 520px;
         }
 
         .testimonial-inner {
           background: white;
           border-radius: 20px;
-          padding: 2.5rem;
+          padding: 2rem;
           height: 100%;
           position: relative;
           box-shadow: 0 10px 30px rgba(30, 58, 138, 0.1);
@@ -239,36 +282,47 @@ export default function ImpactStories() {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          overflow: hidden;
+          word-wrap: break-word;
         }
 
         .testimonial-content {
           flex: 1;
-          margin-bottom: 2rem;
+          margin-bottom: 1.5rem;
+          overflow: hidden;
         }
 
         .testimonial-content p {
           margin: 0;
           line-height: 1.6;
+          word-break: break-word;
+          overflow-wrap: break-word;
         }
 
         .story-title {
           font-size: 16px;
           font-weight: 600;
-          color: var(--primary-color);
+          color: #1a472a;
           display: block;
-          margin-bottom: 1rem;
+          margin-bottom: 0.8rem;
+          line-height: 1.4;
         }
 
         .story-description {
-          color: var(--text-gray);
-          font-size: 14px;
-          line-height: 1.7;
+          color: #666;
+          font-size: 13px;
+          line-height: 1.5;
+          text-align: justify;
         }
 
         .testimonial-client-info {
           display: flex;
           align-items: center;
           gap: 1rem;
+          margin-top: auto;
+          padding-top: 1rem;
+          border-top: 1px solid #f0f0f0;
+          flex-shrink: 0;
         }
 
         .testimonial-avatar {
@@ -276,17 +330,42 @@ export default function ImpactStories() {
         }
 
         .testimonial-image {
-          width: 60px;
-          height: 60px;
+          width: 70px;
+          height: 70px;
           border-radius: 50%;
           overflow: hidden;
-          border: 3px solid var(--light-bg);
+          border: 3px solid #1a472a;
+          box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #e5e7eb;
+          position: relative;
         }
 
-        .testimonial-image img {
+        .testimonial-image::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 12px;
+          color: #666;
+          font-weight: bold;
+          text-align: center;
+          z-index: 1;
+        }
+
+        .testimonial-image img,
+        .testimonial-image .profile-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          object-position: center;
+          display: block;
+          border-radius: 50%;
+          position: relative;
+          z-index: 2;
         }
 
         .client-details {
@@ -294,16 +373,18 @@ export default function ImpactStories() {
         }
 
         .client-name {
-          font-weight: 600;
-          color: var(--text-dark);
-          margin: 0 0 0.3rem 0;
+          font-weight: 700;
+          color: #1a472a;
+          margin: 0 0 0.2rem 0;
           font-size: 1rem;
+          line-height: 1.2;
         }
 
         .client-position {
-          color: var(--text-gray);
-          font-size: 0.9rem;
+          color: #666;
+          font-size: 0.85rem;
           font-weight: 500;
+          line-height: 1.2;
         }
 
         .quote-icon {
